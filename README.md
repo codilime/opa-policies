@@ -2,6 +2,33 @@
 
 Repository contains examples of **policy as code** with the use of OPA (Open Policy Agent).
 
+## Examples
+
+### Local file
+
+```
+cd examples/local-file/infra
+terraform init
+```
+
+```
+terraform plan --out tfplan.binary
+terraform show -json tfplan.binary > tfplan.json
+```
+
+```
+terraform plan --out tfplan.binary && terraform show -json tfplan.binary > tfplan.json
+```
+
+```
+opa exec --decision terraform/analysis/authz --bundle ../policy tfplan.json
+opa exec --decision terraform/analysis/score --bundle ../policy tfplan.json
+```
+
+```
+opa exec --decision terraform/analysis/authz --bundle ../policy tfplan.json
+```
+
 ## Links
 
 * [OPA (Open Policy Agent) - Terraform](https://www.openpolicyagent.org/docs/latest/terraform/)
