@@ -6,27 +6,37 @@ Repository contains examples of **policy as code** with the use of OPA (Open Pol
 
 ### Local file
 
+Initialize Terraform:
+
 ```
 cd examples/local-file/infra
 terraform init
 ```
+
+Prepare Terraform plan in JSON format in 2 steps:
 
 ```
 terraform plan --out tfplan.binary
 terraform show -json tfplan.binary > tfplan.json
 ```
 
+or use below command:
+
 ```
 terraform plan --out tfplan.binary && terraform show -json tfplan.binary > tfplan.json
 ```
+
+Execute policy for generated plan to get final result and score:
 
 ```
 opa exec --decision terraform/analysis/authz --bundle ../policy tfplan.json
 opa exec --decision terraform/analysis/score --bundle ../policy tfplan.json
 ```
 
+or use below command to get full result:
+
 ```
-opa exec --decision terraform/analysis/authz --bundle ../policy tfplan.json
+opa exec --decision terraform/analysis --bundle ../policy tfplan.json
 ```
 
 ## Links
