@@ -39,6 +39,14 @@ or use below command to get full result:
 opa exec --decision terraform/analysis --bundle ../policy tfplan.json
 ```
 
+TODO: simplify local file policy
+
+### AWS Lambda
+
+TODO: prepare example Terraform code to deploy Lambda
+
+TODO: prepare example Rego policy to check resource being deployed in AWS
+
 ## Links
 
 * [OPA (Open Policy Agent) - Terraform](https://www.openpolicyagent.org/docs/latest/terraform/)
