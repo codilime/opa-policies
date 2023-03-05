@@ -29,7 +29,7 @@ terraform plan --out tfplan.binary && terraform show -json tfplan.binary > tfpla
 Execute policy for generated plan to get final result and score:
 
 ```
-opa exec --decision terraform/analysis/authz --bundle ../policy tfplan.json
+opa exec --decision terraform/analysis/allow --bundle ../policy tfplan.json
 opa exec --decision terraform/analysis/score --bundle ../policy tfplan.json
 ```
 
@@ -38,8 +38,6 @@ or use below command to get full result:
 ```
 opa exec --decision terraform/analysis --bundle ../policy tfplan.json
 ```
-
-TODO: simplify local file policy
 
 ### AWS Lambda
 

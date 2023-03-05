@@ -22,14 +22,14 @@ resource_types := {"local_file", "random_string", "random_id"}
 # Policy
 #########
 
-# Authorization holds if score for the plan is acceptable and no changes are made to random_id
-default authz := false
-authz {
+# 'allow' is true if score for the plan is acceptable and no changes are made to random_id
+default allow := false
+allow {
     score < blast_radius
     not touches_random_id
 }
 
-# Compute the score for a Terraform plan as the weighted sum of deletions, creations, modifications
+# compute the score for a Terraform plan as the weighted sum of deletions, creations, modifications
 score := s {
     all := [ x |
             some resource_type
@@ -42,7 +42,7 @@ score := s {
     s := sum(all)
 }
 
-# Whether there is any change to random_id
+# whether there is any change to random_id
 touches_random_id {
     all := resources["random_id"]
     count(all) > 0
