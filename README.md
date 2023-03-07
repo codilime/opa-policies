@@ -26,7 +26,7 @@ or use below command:
 terraform plan --out tfplan.binary && terraform show -json tfplan.binary > tfplan.json
 ```
 
-Execute policy for generated plan to get final result and score:
+Execute Rego policy for generated plan to get final result and score:
 
 ```
 opa exec --decision terraform/analysis/allow --bundle ../policy tfplan.json
@@ -37,6 +37,21 @@ or use below command to get full result:
 
 ```
 opa exec --decision terraform/analysis --bundle ../policy tfplan.json
+```
+
+In order to execute Sentinel policy, prepare JSON in differet place:
+
+```
+mkdir ../policy/test/terraform_basic
+terraform plan --out tfplan.binary && terraform show -json tfplan.binary > ../policy/test/terraform_basic/tfplan.json
+terraform plan --out tfplan.binary && terraform show -no-color tfplan.binary > ../policy/test/terraform_basic/tfplan.hcl
+```
+
+and execute Sentinel policy:
+
+```
+cd ../policy
+sentinel test terraform_basic.sentinel
 ```
 
 ### AWS Lambda
