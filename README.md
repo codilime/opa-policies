@@ -56,9 +56,7 @@ sentinel test terraform_basic.sentinel
 
 ### AWS Lambda
 
-TODO: prepare example Terraform code to deploy Lambda
-
-TODO: prepare example Rego policy to check resource being deployed in AWS
+TODO: prepare example Rego policy to check resource being deployed in AWS (e.g. use https://docs.aws.amazon.com/prescriptive-guidance/latest/saas-multitenant-api-access-authorization/abac-examples.html)
 
 ## Links
 
