@@ -57,13 +57,14 @@ sentinel test terraform_basic.sentinel
 ### AWS Lambda
 
 1. Install prerequisites:
-   - [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli)
+   
+[LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
 
 ```
 docker run -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
 ```
 
-   - [Jenkins](https://hub.docker.com/_/jenkins)
+[Jenkins](https://hub.docker.com/_/jenkins):
 
 ```
 docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins
@@ -82,6 +83,12 @@ terraform apply -auto-approve
 ```
 aws --endpoint-url=http://localhost:4566 s3 ls
 aws --endpoint-url=http://localhost:4566 s3 ls s3://localstack-s3-opa-example
+```
+
+4. Destroy deployment:
+
+```
+terraform apply -auto-approve -destroy
 ```
 
 ## Links
