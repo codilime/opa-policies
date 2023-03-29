@@ -60,7 +60,7 @@ sentinel test terraform_basic.sentinel
    - [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli)
 
 ```
-docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
+docker run -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
 ```
 
    - [Jenkins](https://hub.docker.com/_/jenkins)
