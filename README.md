@@ -56,7 +56,33 @@ sentinel test terraform_basic.sentinel
 
 ### AWS Lambda
 
-TODO: prepare example Rego policy to check resource being deployed in AWS (e.g. use https://docs.aws.amazon.com/prescriptive-guidance/latest/saas-multitenant-api-access-authorization/abac-examples.html)
+1. Install prerequisites:
+   - [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli)
+
+```
+docker run --rm -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
+```
+
+   - [Jenkins](https://hub.docker.com/_/jenkins)
+
+```
+docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins
+```
+
+2. Deploy infrastructure:
+
+```
+cd examples/aws/infra  
+terraform init
+terraform apply -auto-approve
+```
+
+3. Verify deplyoment:
+
+```
+aws --endpoint-url=http://localhost:4566 s3 ls
+aws --endpoint-url=http://localhost:4566 s3 ls s3://localstack-s3-opa-example
+```
 
 ## Links
 
@@ -69,3 +95,4 @@ TODO: prepare example Rego policy to check resource being deployed in AWS (e.g. 
 * [What Is Policy-as-Code?](https://www.paloaltonetworks.com/cyberpedia/what-is-policy-as-code)
 * [Sentinel - Policy as Code](https://docs.hashicorp.com/sentinel/concepts/policy-as-code)
 * [What is Policy-as-Code? An Introduction to Open Policy Agent](https://blog.gitguardian.com/what-is-policy-as-code-an-introduction-to-open-policy-agent/)
+* [AWS Prescriptive Guidance - OPA and Rego](https://docs.aws.amazon.com/prescriptive-guidance/latest/saas-multitenant-api-access-authorization/abac-examples.html)
