@@ -34,3 +34,4 @@ override.tf.json
 **/tfplan.json
 **/**/tfplan.hcl
 **/**/tfplan.json
+examples/aws/infra/jenkins

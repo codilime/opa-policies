@@ -57,7 +57,7 @@ sentinel test terraform_basic.sentinel
 ### AWS Lambda
 
 1. Install prerequisites:
-   
+
 [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
 
 ```
@@ -67,18 +67,41 @@ docker run -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
 [Jenkins](https://hub.docker.com/_/jenkins):
 
 ```
-docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins
+current_directory=`pwd`
+cd examples/aws/infra
+mkdir jenkins
+docker run --name jenkins-opa-tf -p 8080:8080 -p 50000:50000 -v $current_directory/examples/aws/infra/jenkins:/var/jenkins_home -v $current_directory/examples/aws:/usr/src/aws jenkins/jenkins
 ```
+
+[OPA](https://www.openpolicyagent.org/docs/latest/#running-opa):
+
+```
+docker exec -it jenkins-opa-tf bash
+cd
+curl -L -o opa https://openpolicyagent.org/downloads/v0.50.2/opa_linux_amd64_static
+```
+
+[Terraform plugin for Jenkins](https://plugins.jenkins.io/terraform/)
 
 2. Deploy infrastructure:
 
 ```
-cd examples/aws/infra  
+cd examples/aws/infra
 terraform init
 terraform apply -auto-approve
 ```
 
 3. Verify deplyoment:
+
+
+On Jenkins container:
+
+```
+docker exec -it jenkins-opa-tf bash
+jenkins@4aa879681c79:/$ ls -al /usr/src/aws
+```
+
+On host machine:
 
 ```
 aws --endpoint-url=http://localhost:4566 s3 ls
