@@ -57,31 +57,15 @@ sentinel test terraform_basic.sentinel
 ### AWS Lambda
 
 1. Install prerequisites:
-
-[LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
-
-```
-docker run -it -p 4566:4566 -p 4510-4559:4510-4559 localstack/localstack
-```
-
-[Jenkins](https://hub.docker.com/_/jenkins):
+* [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
+* [Jenkins](https://hub.docker.com/_/jenkins), [Jenkins as a code](https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins-setup-with-docker-and-jenkins-configuration-as-code):
+* [OPA](https://www.openpolicyagent.org/docs/latest/#running-opa):
+* [Terraform plugin for Jenkins](https://plugins.jenkins.io/terraform/)
 
 ```
-current_directory=`pwd`
-cd examples/aws/infra
-mkdir jenkins
-docker run --name jenkins-opa-tf -p 8080:8080 -p 50000:50000 -v $current_directory/examples/aws/infra/jenkins:/var/jenkins_home -v $current_directory/examples/aws:/usr/src/aws jenkins/jenkins
+docker build -t jenkins:jcasc .
+docker-compose up -d
 ```
-
-[OPA](https://www.openpolicyagent.org/docs/latest/#running-opa):
-
-```
-docker exec -it jenkins-opa-tf bash
-cd
-curl -L -o opa https://openpolicyagent.org/downloads/v0.50.2/opa_linux_amd64_static
-```
-
-[Terraform plugin for Jenkins](https://plugins.jenkins.io/terraform/)
 
 2. Deploy infrastructure:
 
@@ -97,8 +81,8 @@ terraform apply -auto-approve
 On Jenkins container:
 
 ```
-docker exec -it jenkins-opa-tf bash
-jenkins@4aa879681c79:/$ ls -al /usr/src/aws
+docker exec -it jenkins bash
+jenkins@4aa879681c79:/$ ls -al /usr/local/src/aws
 ```
 
 On host machine:
@@ -112,6 +96,9 @@ aws --endpoint-url=http://localhost:4566 s3 ls s3://localstack-s3-opa-example
 
 ```
 terraform apply -auto-approve -destroy
+
+docker compose stop
+docker compose rm
 ```
 
 ## Links

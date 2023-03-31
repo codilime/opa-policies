@@ -35,3 +35,4 @@ override.tf.json
 **/**/tfplan.hcl
 **/**/tfplan.json
 examples/aws/infra/jenkins
+examples/aws/infra/localstack
