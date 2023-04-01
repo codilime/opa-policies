@@ -16,17 +16,17 @@ weights := {
 }
 
 # Consider exactly these resource types in calculations
-resource_types := {"aws_s3_bucket", "aws_s3_object", "aws_iam"}
+resource_types := {"aws_s3_bucket", "aws_s3_object", "aws_iam_user"}
 
 #########
 # Policy
 #########
 
-# 'allow' is true if score for the plan is acceptable and no changes are made to aws_iam
+# 'allow' is true if score for the plan is acceptable and no changes are made to aws_iam_user
 default allow := false
 allow {
     score < blast_radius
-    not touches_aws_iam
+    not touches_aws_iam_user
 }
 
 # compute the score for a Terraform plan as the weighted sum of deletions, creations, modifications
@@ -42,9 +42,9 @@ score := s {
     s := sum(all)
 }
 
-# whether there is any change to aws_iam
-touches_aws_iam {
-    all := resources["aws_iam"]
+# whether there is any change to aws_iam_user
+touches_aws_iam_user {
+    all := resources["aws_iam_user"]
     count(all) > 0
 }
 

@@ -68,24 +68,7 @@ docker build -t jenkins:jcasc .
 docker-compose up -d
 ```
 
-2. Deploy infrastructure on Jenkins container:
-
-```
-docker exec -it jenkins bash
-cd /usr/local/src/opa-policies/examples/aws/infra/
-terraform init
-terraform apply -auto-approve
-```
-
-3. Verify deplyoment on Jenkins container:
-
-```
-docker exec -it jenkins bash
-aws --endpoint-url=http://localstack:4566 s3 ls
-aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
-```
-
-4. Configure Jenkins project:
+2. Configure Jenkins project:
 - name: ``opa-policies``
 - type of project: ``pipeline``
 - repository - local git: ``file:///usr/local/src/opa-policies``
@@ -93,11 +76,19 @@ aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 - pipeline: ``from SCM``
 - script path: ``examples/aws/infra/Jenkinsfile``
 
-5. Destroy deployment:
+3. Execute Jenkins pipeline and verify deplyoment on Jenkins container:
 
 ```
 docker exec -it jenkins bash
-cd /usr/local/src/opa-policies/examples/aws/infra/
+aws --endpoint-url=http://localstack:4566 s3 ls
+aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
+```
+
+4. Destroy deployment:
+
+```
+docker exec -it jenkins bash
+cd /var/jenkins_home/workspace/opa-policies/examples/aws/infra
 terraform apply -auto-approve -destroy
 exit
 
