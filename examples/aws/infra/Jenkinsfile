@@ -21,10 +21,17 @@ pipeline {
                 sh 'opa exec --decision terraform/analysis/allow --bundle examples/aws/policy examples/aws/infra/tfplan.json | jq ".result[0].result" | grep true'
             }
         }
-         stage('Terraform deploy') {
+        stage('Terraform deploy') {
             steps {
                 echo 'Deploy infrastrucutre'
-                sh 'cd examples/aws/infra && terraform plan'
+                sh 'cd examples/aws/infra && terraform apply -auto-approve'
+            }
+        }
+        stage('Localstack check') {
+            steps {
+                echo 'Check resources deployed in Localstack'
+                sh 'aws --endpoint-url=http://localstack:4566 s3 ls'
+                sh 'aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example'
             }
         }
     }
