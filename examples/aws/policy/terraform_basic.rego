@@ -11,22 +11,22 @@ blast_radius := 30
 
 # weights assigned for each operation on each resource-type
 weights := {
-    "local_file": {"delete": 100, "create": 10, "modify": 1},
-    "random_string": {"delete": 10, "create": 1, "modify": 1}
+    "aws_s3_bucket": {"delete": 100, "create": 10, "modify": 1},
+    "aws_s3_object": {"delete": 10, "create": 1, "modify": 1}
 }
 
 # Consider exactly these resource types in calculations
-resource_types := {"local_file", "random_string", "random_id"}
+resource_types := {"aws_s3_bucket", "aws_s3_object", "aws_iam"}
 
 #########
 # Policy
 #########
 
-# 'allow' is true if score for the plan is acceptable and no changes are made to random_id
+# 'allow' is true if score for the plan is acceptable and no changes are made to aws_iam
 default allow := false
 allow {
     score < blast_radius
-    not touches_random_id
+    not touches_aws_iam
 }
 
 # compute the score for a Terraform plan as the weighted sum of deletions, creations, modifications
@@ -42,9 +42,9 @@ score := s {
     s := sum(all)
 }
 
-# whether there is any change to random_id
-touches_random_id {
-    all := resources["random_id"]
+# whether there is any change to aws_iam
+touches_aws_iam {
+    all := resources["aws_iam"]
     count(all) > 0
 }
 
