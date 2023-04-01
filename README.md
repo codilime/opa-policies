@@ -71,7 +71,7 @@ docker-compose up -d
 
 ```
 docker exec -it jenkins bash
-cd /usr/local/src/aws/infra
+cd /usr/local/src/opa-policies/examples/aws/infra/
 terraform init
 terraform apply -auto-approve
 ```
@@ -80,7 +80,6 @@ terraform apply -auto-approve
 
 ```
 docker exec -it jenkins bash
-ls -al /usr/local/src/aws
 aws --endpoint-url=http://localstack:4566 s3 ls
 aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 ```
@@ -89,7 +88,7 @@ aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 
 ```
 docker exec -it jenkins bash
-cd /usr/local/src/aws/infra
+cd /usr/local/src/opa-policies/examples/aws/infra/
 terraform apply -auto-approve -destroy
 exit
 

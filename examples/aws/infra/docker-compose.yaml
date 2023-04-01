@@ -13,7 +13,7 @@ services:
     volumes:
       - ./localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./..:/usr/local/src/aws
+      - ./../../..:/usr/local/src/opa-policies
   jenkins:
     container_name: jenkins
     image: jenkins:jcasc
@@ -28,4 +28,4 @@ services:
     volumes:
       - ./jenkins:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./..:/usr/local/src/aws
+      - ./../../..:/usr/local/src/opa-policies
