@@ -10,7 +10,7 @@ RUN chmod 755 /usr/local/bin/opa
 
 # TERRAFORM
 RUN apt-get update
-RUN apt-get install -y gnupg software-properties-common wget vim
+RUN apt-get install -y gnupg software-properties-common wget vim jq
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
 gpg --dearmor | \
 tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
