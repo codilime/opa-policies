@@ -63,6 +63,7 @@ sentinel test terraform_basic.sentinel
 * [Terraform plugin for Jenkins](https://plugins.jenkins.io/terraform/)
 
 ```
+cd examples/aws/infra
 docker build -t jenkins:jcasc .
 docker-compose up -d
 ```
@@ -84,7 +85,11 @@ aws --endpoint-url=http://localstack:4566 s3 ls
 aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 ```
 
-4. Destroy deployment:
+4. Configure Jenkins project:
+- repository - local git: ``file:///usr/local/src/opa-policies``
+- branch: ``main``
+
+5. Destroy deployment:
 
 ```
 docker exec -it jenkins bash
