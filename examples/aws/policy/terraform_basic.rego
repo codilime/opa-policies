@@ -1,6 +1,7 @@
 package terraform.analysis
 
 import input as tfplan
+import future.keywords.every
 
 ########################
 # Parameters for Policy
@@ -15,8 +16,11 @@ weights := {
     "aws_s3_object": {"delete": 10, "create": 1, "modify": 1}
 }
 
-# Consider exactly these resource types in calculations
+# consider exactly these resource types in calculations
 resource_types := {"aws_s3_bucket", "aws_s3_object", "aws_iam_user"}
+
+# list of required tags
+required_tags = ["Name", "Environment"]
 
 #########
 # Policy
@@ -27,6 +31,7 @@ default allow := false
 allow {
     score < blast_radius
     not touches_aws_iam_user
+    all_required_tags
 }
 
 # compute the score for a Terraform plan as the weighted sum of deletions, creations, modifications
@@ -46,6 +51,23 @@ score := s {
 touches_aws_iam_user {
     all := resources["aws_iam_user"]
     count(all) > 0
+}
+
+# helper function to check if array contains
+array_contains(arr, elem) {
+  arr[_] = elem
+}
+
+# check required tags
+all_required_tags {
+    resource := tfplan.resource_changes[_]
+    action := resource.change.actions[count(resource.change.actions) - 1]
+    array_contains(["create", "update"], action)
+    tags := resource.change.after.tags
+    existing_tags := [ key | tags[key] ]
+    every required_tag in required_tags {
+        array_contains(existing_tags, required_tag)
+    }
 }
 
 ####################
@@ -70,7 +92,6 @@ num_creates[resource_type] := num {
     creates := [res |  res:= all[_]; res.change.actions[_] == "create"]
     num := count(creates)
 }
-
 
 # number of deletions of resources of a given type
 num_deletes[resource_type] := num {

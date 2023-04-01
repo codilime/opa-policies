@@ -54,7 +54,7 @@ cd ../policy
 sentinel test terraform_basic.sentinel
 ```
 
-### AWS Lambda
+### AWS S3 on Localstack
 
 1. Install prerequisites:
 * [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
