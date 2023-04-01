@@ -86,8 +86,12 @@ aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 ```
 
 4. Configure Jenkins project:
+- name: ``opa-policies``
+- type of project: ``pipeline``
 - repository - local git: ``file:///usr/local/src/opa-policies``
 - branch: ``main``
+- pipeline: ``from SCM``
+- script path: ``examples/aws/infra/Jenkinsfile``
 
 5. Destroy deployment:
 
