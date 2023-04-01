@@ -67,35 +67,31 @@ docker build -t jenkins:jcasc .
 docker-compose up -d
 ```
 
-2. Deploy infrastructure:
+2. Deploy infrastructure on Jenkins container:
 
 ```
-cd examples/aws/infra
+docker exec -it jenkins bash
+cd /usr/local/src/aws/infra
 terraform init
 terraform apply -auto-approve
 ```
 
-3. Verify deplyoment:
-
-
-On Jenkins container:
+3. Verify deplyoment on Jenkins container:
 
 ```
 docker exec -it jenkins bash
-jenkins@4aa879681c79:/$ ls -al /usr/local/src/aws
-```
-
-On host machine:
-
-```
-aws --endpoint-url=http://localhost:4566 s3 ls
-aws --endpoint-url=http://localhost:4566 s3 ls s3://localstack-s3-opa-example
+ls -al /usr/local/src/aws
+aws --endpoint-url=http://localstack:4566 s3 ls
+aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 ```
 
 4. Destroy deployment:
 
 ```
+docker exec -it jenkins bash
+cd /usr/local/src/aws/infra
 terraform apply -auto-approve -destroy
+exit
 
 docker compose stop
 docker compose rm

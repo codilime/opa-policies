@@ -6,10 +6,10 @@ provider "aws" {
   s3_use_path_style           = true
 
   endpoints {
-    dynamodb = "http://localhost:4566"
-    lambda   = "http://localhost:4566"
-    s3       = "http://localhost:4566"
-    sqs      = "http://localhost:4566"
-    sns      = "http://localhost:4566"
+    dynamodb = "http://localstack:4566"
+    lambda   = "http://localstack:4566"
+    s3       = "http://localstack:4566"
+    sqs      = "http://localstack:4566"
+    sns      = "http://localstack:4566"
   }
 }
