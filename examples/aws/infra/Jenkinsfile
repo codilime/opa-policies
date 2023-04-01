@@ -1,6 +1,14 @@
 pipeline {
     agent any
     stages {
+        stage('Info') {
+            steps {
+                echo 'Current working directory: '
+                sh 'pwd'
+                echo 'List of files: '
+                sh 'ls -la'
+            }
+        }        
         stage('Terraform init') {
             steps {
                 echo 'Initialize Terraform'
