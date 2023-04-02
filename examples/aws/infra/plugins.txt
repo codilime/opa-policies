@@ -11,6 +11,7 @@ github-branch-source:latest
 gradle:latest
 job-dsl:latest
 ldap:latest
+locale:latest
 mailer:latest
 matrix-auth:latest
 pam-auth:latest
