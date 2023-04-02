@@ -56,11 +56,7 @@ sentinel test terraform_basic.sentinel
 
 ### AWS S3 on Localstack
 
-1. Install prerequisites:
-* [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
-* [Jenkins](https://hub.docker.com/_/jenkins), [Jenkins as a code](https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins-setup-with-docker-and-jenkins-configuration-as-code):
-* [OPA](https://www.openpolicyagent.org/docs/latest/#running-opa):
-* [Terraform plugin for Jenkins](https://plugins.jenkins.io/terraform/)
+1. Deploy environment with Localhost, Jenkins, Terraform, Rego and AWS CLI tool installed by Docker Compose:
 
 ```
 cd examples/aws/infra
@@ -68,7 +64,7 @@ docker build -t jenkins:jcasc .
 docker-compose up -d
 ```
 
-2. Configure Jenkins project:
+After opening [http://localhost:8080/](http://localhost:8080/) and authenticating to Jenkins using login ``admin`` and password ``admin123``, it can be also checked, that there is already project configured:
 - name: ``opa-policies``
 - type of project: ``pipeline``
 - repository - local git: ``file:///usr/local/src/opa-policies``
@@ -76,7 +72,7 @@ docker-compose up -d
 - pipeline: ``from SCM``
 - script path: ``examples/aws/infra/Jenkinsfile``
 
-3. Execute Jenkins pipeline and verify deplyoment on Jenkins container:
+2. Execute Jenkins pipeline ``opa-policies`` and verify deplyoment on Jenkins container:
 
 ```
 docker exec -it jenkins bash
@@ -84,7 +80,7 @@ aws --endpoint-url=http://localstack:4566 s3 ls
 aws --endpoint-url=http://localstack:4566 s3 ls s3://localstack-s3-opa-example
 ```
 
-4. Destroy deployment:
+3. Destroy deployment:
 
 ```
 docker exec -it jenkins bash
@@ -108,3 +104,7 @@ docker compose rm
 * [Sentinel - Policy as Code](https://docs.hashicorp.com/sentinel/concepts/policy-as-code)
 * [What is Policy-as-Code? An Introduction to Open Policy Agent](https://blog.gitguardian.com/what-is-policy-as-code-an-introduction-to-open-policy-agent/)
 * [AWS Prescriptive Guidance - OPA and Rego](https://docs.aws.amazon.com/prescriptive-guidance/latest/saas-multitenant-api-access-authorization/abac-examples.html)
+* [LocalStack](https://docs.localstack.cloud/get-started/#localstack-cli):
+* [Jenkins](https://hub.docker.com/_/jenkins), [Jenkins as a code](https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins-setup-with-docker-and-jenkins-configuration-as-code), [Jenkins Job DSL](https://jenkinsci.github.io/job-dsl-plugin/#method/javaposse.jobdsl.dsl.helpers.workflow.WorkflowDefinitionContext.cpsScm):
+* [OPA](https://www.openpolicyagent.org/docs/latest/#running-opa):
+* [Terraform plugin for Jenkins](https://plugins.jenkins.io/terraform/)

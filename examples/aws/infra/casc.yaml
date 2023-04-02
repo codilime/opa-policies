@@ -10,3 +10,21 @@ jenkins:
       permissions:
         - "Overall/Administer:admin"
         - "Overall/Read:authenticated"
+jobs:
+  - script: >
+      pipelineJob('opa-policies') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('file:///usr/local/src/opa-policies')
+                }
+                branch('*/main')
+              }
+            }
+            scriptPath('examples/aws/infra/Jenkinsfile')
+            lightweight()
+          }
+        }
+      }

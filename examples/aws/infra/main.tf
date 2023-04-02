@@ -12,6 +12,6 @@ resource "aws_s3_object" "data_json" {
   source = "files/data.json"
   tags = {
     Name        = "Object in Locastack bucket"
-    Environment = "Dev"
+    Environment2 = "Dev"
   }
 }
