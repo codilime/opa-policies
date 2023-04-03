@@ -17,6 +17,7 @@ pipeline {
         stage('Rego policy') {
             steps {
                 echo 'Execute Rego policy'
+                sh 'opa exec --decision terraform/analysis --bundle examples/aws/policy examples/aws/infra/tfplan.json'
                 sh 'opa exec --decision terraform/analysis/score --bundle examples/aws/policy examples/aws/infra/tfplan.json'
                 sh 'opa exec --decision terraform/analysis/allow --bundle examples/aws/policy examples/aws/infra/tfplan.json | jq ".result[0].result" | grep true'
             }
